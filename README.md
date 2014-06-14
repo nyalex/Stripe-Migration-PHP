@@ -3,8 +3,16 @@ Stripe-Migration-PHP
 
 These are a collection of scripts that will help you migrate your Stripe data to another Stripe account. Stripe will only migrate customers and cards - nothing else. As a result, I've built these scripts to move other elements: 
 
-- Plans
-- Subscriptions
+- Plans - `move_plans.php`
+- Subscriptions - `move_subscriptions.php`
+
+## Instructions
+
+1) Place these files are a PHP server.
+
+2) Add your Stripe API keys in `stripe_keys.php`, but be careful! Test it on your test API keys first!
+
+3) Run the respective file directly in your browser for each element you want migrated. For example, run `move_plans.php` if you want your plans migrated.
 
 ## MIT License
 
