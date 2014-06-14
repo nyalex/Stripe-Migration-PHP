@@ -1,9 +1,9 @@
 <?php
 
 // Account you're moving FROM
-define("SOURCE_KEY", "sk_test_zExYygJ6p3T4WBvBU3XCJSUo");
+define("SOURCE_KEY", "");
 
 // Account you're moving TO
-define("DESTINATION_KEY", "sk_test_zExYygJ6p3T4WBvBU3XCJSUo");
+define("DESTINATION_KEY", "");
 
 ?>
