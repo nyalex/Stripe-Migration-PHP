@@ -8,7 +8,7 @@ require_once('./lib/Stripe.php');
 require_once('./stripe_keys.php');
 
 // SOURCE ACCOUNT
-Stripe::setApiKey("sk_test_zExYygJ6p3T4WBvBU3XCJSUo");
+Stripe::setApiKey(SOURCE_KEY);
 
 // Get existing plans from source account
 $plans = Stripe_Plan::all(array('limit' => 100));
