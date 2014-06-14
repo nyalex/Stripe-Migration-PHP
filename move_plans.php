@@ -82,11 +82,6 @@ class stripe_migration {
 				<td>
 					<?php
 
-						// if (!in_array($p['id'], array('premium', 'standard', 'pro', 'pro-25off'))) {
-						// 	$plan_delete = Stripe_Plan::retrieve($p['id']);
-						// 	$plan_delete->delete();
-						// }
-
 						// Call function from above to create the plan into destination account
 						$sm = new stripe_migration;
 						echo $sm->create_plan(
