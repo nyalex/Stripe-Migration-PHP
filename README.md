@@ -13,8 +13,7 @@ These are a collection of scripts that will help you migrate your Stripe data to
 2. Add your Stripe API keys into `stripe_keys.php`, but be careful! Test it on your test API keys first!
 
 3. Run the respective file directly in your browser for each element that you want migrated. For example, run `move_plans.php` if you want your plans migrated.
-
-> Warning: When running `move_subscriptions.php`, the script will cancel existing subscriptions from the source account.
+⋅⋅1. *Warning!* When running `move_subscriptions.php`, the script will cancel existing subscriptions from the source account.
 
 4. Check your destination account to make sure everything worked as expected.
 
