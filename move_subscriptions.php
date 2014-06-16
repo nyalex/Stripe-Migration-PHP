@@ -33,7 +33,7 @@ while ($count == 100) {
 			// Subscription info
 			$subscribers[$s['id']]['subscription_id'] = $s['id'];
 			$subscribers[$s['id']]['plan_id'] = $s['plan']['id'];
-			$subscribers[$s['id']]['billing_cycle_anchor'] = $s['current_period_end'];
+			$subscribers[$s['id']]['billing_cycle_anchor'] = $s['current_period_end']; // ! Using existing end period as new billing_cycle_anchor
 
 		}
 
@@ -49,24 +49,24 @@ while ($count == 100) {
 class stripe_migration {
 
 	// Create new and cancel existing subscription
-	function move_subscription($customer_id, $subscription_id, $plan_id, $trial_end) {
+	function move_subscription($customer_id, $subscription_id, $plan_id, $billing_cycle_anchor) {
 
 		try {
 
-			// Remove OLD subscription on source account
+			// Remove OLD subscription on source account at end of cycle
 			Stripe::setApiKey(SOURCE_KEY);
 
 			$sub_cancel = Stripe_Customer::retrieve($customer_id);
-			$sub_cancel->subscriptions->retrieve($subscription_id)->cancel();
+			$sub_cancel->subscriptions->retrieve($subscription_id)->cancel(array('at_period_end' => TRUE));
 
-			// Setup NEW subscription on destination account
+			// Setup NEW subscription on destination account to begin billing next cycle via billing_cycle_anchor
 			Stripe::setApiKey(DESTINATION_KEY);
 
 			$sub_mig = Stripe_Customer::retrieve($customer_id);
 			$response = $sub_mig->subscriptions->create(
 				array(
 					"plan" => $plan_id,
-					"billing_cycle_anchor" => $trial_end,
+					"billing_cycle_anchor" => $billing_cycle_anchor,
 					"prorate" => FALSE
 				)
 			);
