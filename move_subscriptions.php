@@ -32,8 +32,8 @@ while ($count == 100) {
 				
 			// Subscription info
 			$subscribers[$s['id']]['subscription_id'] = $s['id'];
-			$subscribers[$s['id']]['current_period_end'] = $s['current_period_end'];
 			$subscribers[$s['id']]['plan_id'] = $s['plan']['id'];
+			$subscribers[$s['id']]['billing_cycle_anchor'] = $s['current_period_end'];
 
 		}
 
@@ -66,7 +66,8 @@ class stripe_migration {
 			$response = $sub_mig->subscriptions->create(
 				array(
 					"plan" => $plan_id,
-					"trial_end" => $trial_end
+					"billing_cycle_anchor" => $trial_end,
+					"prorate" => FALSE
 				)
 			);
 
@@ -91,7 +92,7 @@ class stripe_migration {
 			<th>Subscription ID</th>
 			<th>Plan ID</th>
 			<th>Customer Description</th>
-			<th>Trial End Date</th>
+			<th>Billing Cycle Anchor</th>
 			<th>MIGRATION RESULT</th>
 		</tr>
 	</thead>
@@ -107,7 +108,7 @@ class stripe_migration {
 				<td><?=$s['subscription_id'];?></td>
 				<td><?=$s['plan_id'];?></td>
 				<td><?=$s['description'];?></td>
-				<td><?=date('Y-m-d H:i:s A', $s['current_period_end']);?></td>
+				<td><?=date('Y-m-d H:i:s A', $s['billing_cycle_anchor']);?></td>
 				<td>
 					<?php
 
@@ -117,7 +118,7 @@ class stripe_migration {
 							$s['customer_id'],
 							$s['subscription_id'],
 							$s['plan_id'],
-							$s['current_period_end']
+							$s['billing_cycle_anchor']
 						);
 
 					?>
