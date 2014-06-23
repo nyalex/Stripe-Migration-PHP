@@ -26,14 +26,22 @@ while ($count == 100) {
 		// Loop if they have multiple subscriptions
 		foreach ($c['subscriptions']['data'] as $s) {
 
-			// Account info
-			$subscribers[$s['id']]['customer_id'] = $c['id'];
-			$subscribers[$s['id']]['description'] = $c['description'];
-				
-			// Subscription info
-			$subscribers[$s['id']]['subscription_id'] = $s['id'];
-			$subscribers[$s['id']]['plan_id'] = $s['plan']['id'];
-			$subscribers[$s['id']]['billing_cycle_anchor'] = $s['current_period_end']; // ! Using existing end period as new billing_cycle_anchor
+			// Only migrate active subscriptions (failed subscriptions going through retry settings, will be handled manually)
+			if (in_array($s['status'], array('active'))) {
+
+				// Account info
+				$subscribers[$s['id']]['customer_id'] = $c['id'];
+				$subscribers[$s['id']]['description'] = $c['description'];
+					
+				// Subscription info
+				$subscribers[$s['id']]['subscription_id'] = $s['id'];
+				$subscribers[$s['id']]['subscription_status'] = $s['status'];
+				$subscribers[$s['id']]['plan_id'] = $s['plan']['id'];
+
+				// Using existing end period as new billing_cycle_anchor
+				$subscribers[$s['id']]['billing_cycle_anchor'] = $s['current_period_end'];
+
+			}
 
 		}
 
@@ -91,6 +99,7 @@ class stripe_migration {
 			<th>Customer ID</th>
 			<th>Subscription ID</th>
 			<th>Plan ID</th>
+			<th>Subscription Status</th>
 			<th>Customer Description</th>
 			<th>Billing Cycle Anchor</th>
 			<th>MIGRATION RESULT</th>
@@ -107,6 +116,7 @@ class stripe_migration {
 				<td><?=$s['customer_id'];?></td>
 				<td><?=$s['subscription_id'];?></td>
 				<td><?=$s['plan_id'];?></td>
+				<td><?=$s['subscription_status'];?></td>
 				<td><?=$s['description'];?></td>
 				<td><?=date('Y-m-d H:i:s A', $s['billing_cycle_anchor']);?></td>
 				<td>
