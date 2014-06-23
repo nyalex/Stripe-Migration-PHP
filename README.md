@@ -6,6 +6,8 @@ These are a collection of scripts that will help you migrate your Stripe data to
 - Plans - `move_plans.php`
 - Subscriptions - `move_subscriptions.php`
 
+The code provided is intended to be used as a starting point and modified to fit your specific needs. I am assuming that you have enough PHP knowledge to go through the code before running it on your account.
+
 ## Instructions
 
 1. Place these files on a PHP server.
